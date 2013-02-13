@@ -20,7 +20,8 @@ module Codebreaker
       end
       it 'prompts for the first guess' do
         output.should_receive(:puts).with('Enter guess:')
-        game.prompt.should raise_error SystemStackError
+        game.stub(:gets).and_return("")
+        game.start         
       end
     end
 

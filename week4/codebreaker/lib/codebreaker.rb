@@ -1,4 +1,5 @@
-require "codebreaker/version"
+require_relative 'codebreaker/version'
+
 
 module Codebreaker
   class Game
@@ -23,9 +24,9 @@ module Codebreaker
         when 'e'
           exit
         else
-        check(answer)
-      end
-      prompt
+          check(answer)
+      end 
+      prompt unless answer.nil? or answer == ""
     end
 
     def do_hint
