@@ -18,6 +18,7 @@ module Codebreaker
     def prompt
       @output.puts 'Enter guess:'
       answer = gets.chomp
+      @tries = @tries? @tries + 1 : 0
       case answer
         when 'h'
           do_hint
@@ -50,14 +51,35 @@ module Codebreaker
     end
 
     def congrat
+      @output.puts "What's your name, oh the wise one?"
       @output.puts 'You have won the game'
+      @output.puts "What's your name, oh the wise one?"
+      username = gets.chomp
+      File.new('highscore', 'w+') unless File.exists?('highscore')
+      highscore = File.open("highscore", 'a+') do |f|
+        begin
+          Integer(f.read) 
+        rescue 
+          9999
+        end 
+      end
+      @output.print "Current highscore was #{highscore}, and you scored: #{@tries}, using #{@shown} number of hints."
+      result = (get_tries > highscore) ? "You suck. \n" : "You rule, maaaan.\n"
+      @output.print result
+      File.open("highscore", 'w+'){|f| f.write @tries}
       @shown = 0
+      @tries = nil
       start
     end
 
     private
     def generate_code
       @code = Array('1'..'6').sample(4)
+    end
+
+    def get_tries
+      puts 'called get_tries'
+      @tries
     end
   end
 end

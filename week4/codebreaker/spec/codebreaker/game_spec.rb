@@ -28,23 +28,47 @@ module Codebreaker
     context 'after getting prompt' do
       describe 'should compare input with code' do
         let(:fake_code) {Array('1'..'4')}
+        before(:each) do
+          game.stub(:get_tries).and_return(1000)
+        end 
         context "in case it's the same " do
           it 'puts You have won the game' do
             game.stub(:prompt).as_null_object
             output.should_receive(:puts).with('You have won the game')
             game.check('1234', fake_code)
           end
+          it 'should ask for player\'s name' do
+            game.stub(:prompt).as_null_object
+            output.should_receive(:puts).with("What's your name, oh the wise one?")
+            game.check('1234', fake_code)
+          end
+          describe 'should checkout highscore file' do
+            it 'creates one if none present' do
+              File.delete('highscore')
+              game.check('1234', fake_code)
+              File.exists?('highscore').should be true
+            end
+          end
+          context 'if you suck' do
+
+            it 'should say so' do
+              game.should_receive(:get_tries).and_return(10000)
+              output.should_receive(:print).with("You suck. \n")
+              game.check('1234', fake_code)
+            end
+          end
+          
           it 'starts new game' do
             game.should_receive(:start)
             game.check('1234', fake_code)
           end
         end
         context "in case it's differs " do
-          it 'puts the mark out' do
+          it 'puts the crab out' do
             output.should_receive(:puts).with('----')
             game.check('4321', fake_code)
           end
-          it 'puts the mark out' do
+          it 'puts the crab out' do
             output.should_receive(:puts).with('-+')
             game.check('5364', fake_code)
           end
