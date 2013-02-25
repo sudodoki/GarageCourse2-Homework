@@ -51,7 +51,6 @@ module Codebreaker
     end
 
     def congrat
-      @output.puts "What's your name, oh the wise one?"
       @output.puts 'You have won the game'
       @output.puts "What's your name, oh the wise one?"
       username = gets.chomp
@@ -63,10 +62,11 @@ module Codebreaker
           9999
         end 
       end
-      @output.print "Current highscore was #{highscore}, and you scored: #{@tries}, using #{@shown} number of hints."
+      @output.print "Current highscore was #{highscore}"
+      @output.print ", and you scored: #{get_tries}, using #{@shown || 0} number of hints."
       result = (get_tries > highscore) ? "You suck. \n" : "You rule, maaaan.\n"
       @output.print result
-      File.open("highscore", 'w+'){|f| f.write @tries}
+      File.open("highscore", 'w+'){|f| f.write get_tries} if get_tries < highscore 
       @shown = 0
       @tries = nil
       start
@@ -78,9 +78,8 @@ module Codebreaker
     end
 
     def get_tries
-      puts 'called get_tries'
       @tries
     end
   end
 end
-# Codebreaker::Game.new.start
+Codebreaker::Game.new.start

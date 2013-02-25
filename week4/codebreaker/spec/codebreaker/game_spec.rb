@@ -31,6 +31,21 @@ module Codebreaker
         before(:each) do
           game.stub(:get_tries).and_return(1000)
         end 
+        context "in case it's 'e'" do
+          it 'should exit' do
+            game.stub(:exit).as_null_object
+            game.stub(:gets).and_return('e', '')
+            game.should_receive(:exit)
+            game.start
+          end
+        end
+        context "in case it's 'h'" do
+          it 'should give out the hint' do
+            game.stub(:gets).and_return('h', '')
+            output.should_receive(:puts).with(/(welcome to Codebreaker!|Enter guess:|[123456])/)
+            game.start
+          end
+        end
         context "in case it's the same " do
           it 'puts You have won the game' do
             game.stub(:prompt).as_null_object
@@ -48,12 +63,23 @@ module Codebreaker
               game.check('1234', fake_code)
               File.exists?('highscore').should be true
             end
+            it 'and read the highscore' do
+              File.open('highscore', 'w+')  { |file| file.write("13") }
+              output.should_receive(:print).with("Current highscore was 13")
+              game.check('1234', fake_code)              
+            end
           end
           context 'if you suck' do
-
             it 'should say so' do
               game.should_receive(:get_tries).and_return(10000)
               output.should_receive(:print).with("You suck. \n")
+              game.check('1234', fake_code)
+            end            
+          end
+          context 'if you rule' do
+            it 'should say so' do
+              game.should_receive(:get_tries).and_return(1)
+              output.should_receive(:print).with("You rule, maaaan.\n")
               game.check('1234', fake_code)
             end
           end
@@ -64,11 +90,11 @@ module Codebreaker
           end
         end
         context "in case it's differs " do
-          it 'puts the crab out' do
+          it 'puts the mark out, case1' do
             output.should_receive(:puts).with('----')
             game.check('4321', fake_code)
           end
-          it 'puts the crab out' do
+          it 'puts the mark out, case2' do
             output.should_receive(:puts).with('-+')
             game.check('5364', fake_code)
           end
