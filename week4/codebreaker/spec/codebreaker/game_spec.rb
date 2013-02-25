@@ -11,7 +11,6 @@ module Codebreaker
         game.code.join.scan(/[0-6]{4}/)[0].length.should eq(4)
       end
     end
-
     describe '#start' do
       it 'sends a welcome message' do
         output.should_receive(:puts).with('welcome to Codebreaker!')
@@ -78,7 +77,8 @@ module Codebreaker
           end
           context 'if you rule' do
             it 'should say so' do
-              game.should_receive(:get_tries).and_return(1)
+              File.open('highscore', 'w+')  { |file| file.write("33") }
+              game.stub(:get_tries).and_return(1)
               output.should_receive(:print).with("You rule, maaaan.\n")
               game.check('1234', fake_code)
             end

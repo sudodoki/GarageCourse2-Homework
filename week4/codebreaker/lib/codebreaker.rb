@@ -64,7 +64,7 @@ module Codebreaker
       end
       @output.print "Current highscore was #{highscore}"
       @output.print ", and you scored: #{get_tries}, using #{@shown || 0} number of hints."
-      result = (get_tries > highscore) ? "You suck. \n" : "You rule, maaaan.\n"
+      result = (get_tries > highscore.to_i) ? "You suck. \n" : "You rule, maaaan.\n"
       @output.print result
       File.open("highscore", 'w+'){|f| f.write get_tries} if get_tries < highscore 
       @shown = 0
@@ -82,4 +82,4 @@ module Codebreaker
     end
   end
 end
-Codebreaker::Game.new.start
+# Codebreaker::Game.new.start
