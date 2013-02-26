@@ -22,11 +22,10 @@ class SimpleUtil
       ].join("<br>")  
     end
   }
-  def call(env)
 
+  def call(env)
     @request  = Rack::Request.new(env)
     @response = Rack::Response.new
-    print @request
     @response.status = 200
     @response['Content-Type'] = 'text/html;charset=utf-8'
     @response.body = [ handle(@request.env["REQUEST_URI"]) ]
@@ -42,6 +41,7 @@ class SimpleUtil
     end
     "<pre>" + responce_text + "</pre>" 
   end
+
   def self.mem
     `free -m`
   end
