@@ -37,7 +37,8 @@ class SimpleUtil
     if ROUTES.has_key? location 
       responce_text = ROUTES[location].call 
     else
-     responce_text = 'У нас обед, приходите позже.'
+     @response.status = 404
+     responce_text = 'У нас обед, приходите позже. 404'
     end
     "<pre>" + responce_text + "</pre>" 
   end
