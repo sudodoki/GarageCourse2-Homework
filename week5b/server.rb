@@ -10,7 +10,6 @@ before  do
 end
 
 post '/login' do
-  binding.pry
   if params[:user] == "admin" and params[:password] == "admin"
     session[:logged] = "true"
     redirect '/'
