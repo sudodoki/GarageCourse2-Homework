@@ -4,31 +4,44 @@ require 'pry'
 require_relative 'config'
 
 before  do
-  unless request.path_info == '/login' or session[:logged] == "true"
+  unless request.path_info == '/login' or session[:logged_in] == "yes"
     redirect '/login'
   end 
 end
 
 post '/login' do
   if params[:user] == "admin" and params[:password] == "admin"
-    session[:logged] = "true"
+    session[:logged_in] = "yes"
+    session[:user] = params[:user]
     redirect '/'
-  end
-  
+  end  
 end
 
 get '/' do
   disk.merge(mem).to_json
 end
+
 get '/login' do
-  erb :login
+  if session[:logged_in] == "yes"
+    erb :logged, :locals => {:user => session[:user]}
+  else
+    erb :login, :locals => {:user => session[:user]}
+  end
 end
+
+get '/logout' do
+  session[:logged_in] = nil
+  redirect '/login'
+end
+
 get '/disk/?:id?' do
   disk.to_json
 end
+
 get '/memory/?:id?' do
   mem.to_json
 end
+
 get '/help' do 
   erb :help
 end
