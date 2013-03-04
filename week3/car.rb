@@ -1,14 +1,14 @@
 class Car
   # responding to setter and getter-setter methods
   ATTRIBUTES_ALLOWED = %w(engine size turbo)
-  def method_missing(method, *args)
-    method.to_s.sub!('=','')
-    if ATTRIBUTES_ALLOWED.include? method 
+  def method_missing(method, *args)    
+    method_name = method.to_s.sub('=','')
+    if ATTRIBUTES_ALLOWED.include?(method_name)
       if args.empty?
-        instance_variable_get("@#{method}")
+        instance_variable_get("@#{method_name}")
       else
-        attribute = {method.to_sym => args[0] }
-        self.set attribute  
+        attribute = {method_name.to_sym => args[0] }        
+        set attribute  
       end
     else
       super
@@ -24,7 +24,13 @@ class Car
   end
    
   def set attributes
-     attributes.each {|key, value| instance_variable_set("@#{key}", value)}     
+     attributes.each do |key, value| 
+      if ATTRIBUTES_ALLOWED.include? key.to_s 
+        instance_variable_set("@#{key}", value)
+      else
+        raise
+      end
+    end
     rescue
       print "LOL U FAG U DID SOMETHING WRONG WITH #{attributes.inspect} \n"        
   end
@@ -37,3 +43,4 @@ class Car
     end)
   end
 end
+
