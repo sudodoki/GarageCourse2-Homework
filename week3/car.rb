@@ -2,11 +2,12 @@ class Car
   # responding to setter and getter-setter methods
   ATTRIBUTES_ALLOWED = %w(engine size turbo)
   def method_missing(method, *args)
-    if ATTRIBUTES_ALLOWED.include? method or ATTRIBUTES_ALLOWED.include? method.to_s.sub('=','')
+    method.to_s.sub!('=','')
+    if ATTRIBUTES_ALLOWED.include? method 
       if args.empty?
         instance_variable_get("@#{method}")
       else
-        attribute = {method.to_s.sub('=', '').to_sym => args[0] }
+        attribute = {method.to_sym => args[0] }
         self.set attribute  
       end
     else
