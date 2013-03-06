@@ -6,6 +6,7 @@ group :development do
   gem 'shotgun'
 end
 
+gem 'rack-flash3'
 gem 'sinatra'
 gem 'thin'
 gem 'json'

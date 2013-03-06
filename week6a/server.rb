@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'rack-flash'
 require 'json'
 require 'pry'
 require 'dm-core'
@@ -22,19 +23,22 @@ post '/signup' do
     authentificate(user)
     redirect '/'
   else
-    erb :signup, :locals => {:flash => user.errors.to_a.join(',')}
+    flash[:error] = user.errors.to_a.join(',')
+    erb :signup
   end
   
 end
 
 post '/login' do
-  user_to_check = User.first_or_create(:name => params[:user])
+  user_to_check = User.first(:name => params[:user])
   found = !user_to_check.nil?
+  binding.pry
   if found and params[:password] == user_to_check.password
     authentificate(user_to_check)
     redirect '/'
   else
-    erb :login, :locals => {:flash => found ? "Wrong pass, try again" : "No such user", :user => user_to_check.name}
+    flash[:error] = found ? "Wrong pass, try again" : "No such user"
+    erb :login, :locals => {:user => user_to_check.nil? ? '' : user_to_check.name}
   end  
 end
 
@@ -47,12 +51,12 @@ get '/login/?' do
   if session[:logged_in] == "yes"
     redirect "/users/#{user}"
   else
-    erb :login, :locals => {:user => user, :flash => 'Greetings'}
+    erb :login, :locals => {:user => user}
   end
 end
 
 get '/signup/?' do
-  erb :signup, :locals => {:flash => 'Greetings'}
+  erb :signup
 end
 
 get '/logout' do

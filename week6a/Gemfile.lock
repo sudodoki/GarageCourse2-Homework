@@ -64,6 +64,8 @@ GEM
       method_source (~> 0.8)
       slop (~> 3.4)
     rack (1.5.2)
+    rack-flash3 (1.0.3)
+      rack
     rack-protection (1.4.0)
       rack
     require_all (1.2.1)
@@ -90,6 +92,7 @@ DEPENDENCIES
   dm-sqlite-adapter
   json
   pry
+  rack-flash3
   require_all
   shotgun
   sinatra

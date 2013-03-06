@@ -1,5 +1,5 @@
-<% unless flash and flash.nil? or flash.length == 0 %>
-  <h1><%= flash %></h1>
+<% unless flash.nil? or (flash[:error] and flash[:error].length == 0) %>
+  <h1><%= flash[:error] %></h1>
 <% end %>
 <form action='/signup' method="POST">
   <h1>Enter your name, user: </h1>
