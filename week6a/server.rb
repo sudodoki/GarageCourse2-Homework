@@ -34,7 +34,6 @@ post '/login' do
     authentificate(user_to_check)
     redirect '/'
   else
-    binding.pry
     erb :login, :locals => {:flash => found ? "Wrong pass, try again" : "No such user", :user => user_to_check.name}
   end  
 end
@@ -72,4 +71,4 @@ def authentificate(user)
   session[:user] = user.name
   user.update(:ip => request.ip) 
   user.save
-  end
+end
