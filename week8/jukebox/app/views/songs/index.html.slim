@@ -1,0 +1,34 @@
+h1 Listing songs
+table.table
+  thead
+    tr
+      th
+        h4
+          ' Title
+          == sort_link("title", @sorting[:title] || false)
+      th
+        h4
+          ' Duration
+          == sort_link("duration", @sorting[:duration] || false)
+      th
+        h4
+          ' Genre
+          == sort_link("genre", @sorting[:genre] || false)
+
+      th
+        h4
+          ' Artist
+          == sort_link("scenic_name", @sorting[:scenic_name] || false)
+      th
+      th
+      th
+  tbody
+  - if @songs.any?
+    - @songs.each do |song|
+      = render 'song', song: song
+  - else
+    tr
+      td colspan='7'
+        | No songs here, sorry, mate =)
+br/
+= link_to 'New Song', new_song_path

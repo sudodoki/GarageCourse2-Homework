@@ -1,0 +1,13 @@
+tr
+  td
+    = song.title
+  td
+    = song.readeable_duration
+  td
+    = song.genre
+  td
+    = link_to song.scenic_name, artist_path(song.artist), class: "btn btn-link"
+
+  td= link_to 'Show', song, class: "btn btn-link"
+  td= link_to 'Edit', edit_song_path(song), class: "btn btn-link"
+  td= link_to 'Destroy', song, method: :delete, confirm: 'Are you sure?' , class: "btn btn-link"
