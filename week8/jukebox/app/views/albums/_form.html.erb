@@ -10,7 +10,9 @@
       </ul>
     </div>
   <% end %>
-
+  <%= f.fields_for :songs do |builder| %>
+    <%= render 'shared/song_fields', :f => builder %>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>
