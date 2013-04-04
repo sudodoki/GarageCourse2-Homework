@@ -1,0 +1,24 @@
+h1= defined?(title) ? title : "Listing albums"
+
+table.albums
+  - @albums.each do |album|
+    tr
+      td colspan="3"
+        b
+          = album.title
+        i
+          = album.year
+    tr
+      td= link_to 'Show', album
+      td= link_to 'Edit', edit_album_path(album)
+      td= link_to 'Destroy', album, method: :delete, confirm: 'Are you sure?'
+  - if defined?(new_acceptable)
+    = form_for(Album.new()) do |f|
+      = f.text_field :title
+      = f.text_field :year
+      = f.hidden_field :artist_id, :value => @artist.id
+      = f.submit
+      -binding.pry
+
+br/
+= link_to 'New Album', new_album_path

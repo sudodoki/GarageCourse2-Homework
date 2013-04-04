@@ -10,6 +10,9 @@
       </ul>
     </div>
   <% end %>
+  <%= f.text_field :title %>
+  <%= f.text_field :year %>
+
   <%= f.fields_for :songs do |builder| %>
     <%= render 'shared/song_fields', :f => builder %>
   <% end %>
