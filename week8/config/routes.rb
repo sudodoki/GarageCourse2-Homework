@@ -1,6 +1,13 @@
 Jukebox::Application.routes.draw do
-  resources :albums, :artists, :songs
-  match "/artists/:id/albums" => 'albums#by_artist', via: :get, as: "by_artist"
+  resources :songs, :albums
+
+  resources :artists, shallow: true do
+    resources :albums do
+      resources :songsg
+    end
+  end
+  # match "/albums" => 'albums#index', via: get, as: 'albums'
+  # match "/artists/:id/albums" => 'albums#by_artist', via: :get, as: "by_artist"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
