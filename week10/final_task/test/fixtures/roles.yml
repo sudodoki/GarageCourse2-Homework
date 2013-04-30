@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  read_admin: false
-  write_admin: false
-
-two:
-  read_admin: false
-  write_admin: false

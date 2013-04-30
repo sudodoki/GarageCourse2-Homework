@@ -4,3 +4,6 @@
 [submodule "week8"]
 	path = week8
 	url = git@github.com:sudodoki/Simple-Rails-App.git
+[submodule "week10"]
+	path = week10
+	url = git://github.com/sudodoki/Rails-4-Streaming-Barcodes.git
